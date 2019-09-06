@@ -1,9 +1,13 @@
 const http = require('http');
 const express = require('express');
 
+const itemsRouter = require('./routes/items.js');
+
 const app = express();
 
 app.use(express.json());
+
+app.use('/items', itemsRouter);
 
 
 app.use('/', function(req, res) {
