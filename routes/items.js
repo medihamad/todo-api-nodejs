@@ -50,25 +50,27 @@ router.post('/', function(req, res) {
 router.put('/:id', function(req, res) {
     let found = data.found(function (item) {
         return item.id === parseInt(req.params.id);
-    })
+    });
+
+    if(found){
+        let updated = {
+            id: found.id,
+            title: req.body.title,
+            order: req.body.order,
+            completed: req.body.completed
+        };
+    
+        let targetIndex = data.indexOf(found);
+    
+        data.splice(targetIndex, 1, updated);
+    
+        res.sendStatus(204);
+    } else{
+        res.sendStatus(404);
+    }
 });
 
-if(found){
-    let updated = {
-        id: found.id,
-        title: req.body.title,
-        order: req.body.order,
-        completed: req.body.completed
-    };
 
-    let targetIndex = data.indexOf(found);
-
-    data.splice(targetIndex, 1, updated);
-
-    res.sendStatus(204);
-} else{
-    res.sendStatus(404);
-}
 
 
 router.delete('/:id', function(req, res) {
